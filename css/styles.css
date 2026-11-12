@@ -1,0 +1,126 @@
+/* FC Barcelona Ticketing System: shared styles (Bootstrap 5.3 + club colors) */
+:root {
+    --fcb-blue: #004d98;
+    --fcb-blue-dark: #0b2a55;
+    --fcb-garnet: #a50044;
+    --fcb-gold: #edbb00;
+    --fcb-page: #f4f6fa;
+}
+
+body {
+    background-color: var(--fcb-page);
+}
+
+/* Navigation bar: club blue with a garnet and gold stripe underneath */
+.fcb-navbar {
+    background-color: var(--fcb-blue);
+    border-bottom: 4px solid var(--fcb-garnet);
+    box-shadow: 0 3px 0 var(--fcb-gold);
+}
+
+.fcb-navbar .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.fcb-navbar .nav-link:hover,
+.fcb-navbar .nav-link:focus {
+    color: #fff;
+}
+
+.fcb-navbar .nav-link.active {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--fcb-gold);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 6px;
+}
+
+/* Simple striped badge next to the brand name (not the club crest) */
+.fcb-crest {
+    display: inline-block;
+    width: 1.1rem;
+    height: 1.4rem;
+    margin-right: 0.5rem;
+    vertical-align: -0.25rem;
+    border: 2px solid var(--fcb-gold);
+    border-radius: 0 0 0.6rem 0.6rem;
+    background: repeating-linear-gradient(90deg, var(--fcb-garnet) 0 0.28rem, var(--fcb-blue) 0.28rem 0.56rem);
+}
+
+/* Primary buttons use club blue */
+.btn-primary {
+    --bs-btn-bg: var(--fcb-blue);
+    --bs-btn-border-color: var(--fcb-blue);
+    --bs-btn-hover-bg: var(--fcb-blue-dark);
+    --bs-btn-hover-border-color: var(--fcb-blue-dark);
+    --bs-btn-active-bg: var(--fcb-blue-dark);
+    --bs-btn-active-border-color: var(--fcb-blue-dark);
+    --bs-btn-disabled-bg: var(--fcb-blue);
+    --bs-btn-disabled-border-color: var(--fcb-blue);
+}
+
+a {
+    color: var(--fcb-blue);
+}
+
+/* Home page hero (WF01) */
+.fcb-hero {
+    color: #fff;
+    background: linear-gradient(120deg, var(--fcb-blue) 0%, var(--fcb-blue-dark) 55%, var(--fcb-garnet) 100%);
+    border-radius: 1rem;
+}
+
+.fcb-hero .btn-light {
+    color: var(--fcb-blue);
+    font-weight: 600;
+}
+
+/* Rounded panels like the wireframes */
+.fcb-panel {
+    background-color: #fff;
+    border: 1px solid #dde3ec;
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(11, 42, 85, 0.06);
+}
+
+.fcb-form {
+    max-width: 640px;
+}
+
+.fcb-narrow {
+    max-width: 460px;
+}
+
+.table thead th {
+    color: var(--fcb-blue-dark);
+    border-bottom: 2px solid var(--fcb-blue);
+    white-space: nowrap;
+}
+
+/* Match type labels */
+.badge-league {
+    background-color: var(--fcb-blue);
+}
+
+.badge-cup {
+    background-color: var(--fcb-garnet);
+}
+
+.required-mark {
+    color: var(--fcb-garnet);
+}
+
+.fcb-footer {
+    color: #d7e0ee;
+    background-color: var(--fcb-blue-dark);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--fcb-blue);
+    --bs-btn-border-color: var(--fcb-blue);
+    --bs-btn-hover-bg: var(--fcb-blue);
+    --bs-btn-hover-border-color: var(--fcb-blue);
+    --bs-btn-active-bg: var(--fcb-blue-dark);
+    --bs-btn-active-border-color: var(--fcb-blue-dark);
+}
