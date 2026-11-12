@@ -1,2 +1,6 @@
-.DS_Store
-*.log
+/database/*.sqlite
+/database/*.sqlite-shm
+/database/*.sqlite-wal
+/database/*.db
+.env
+/vendor/

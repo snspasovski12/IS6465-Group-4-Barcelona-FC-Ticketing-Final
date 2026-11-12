@@ -1,137 +1,265 @@
+# FC Barcelona Ticketing System
+## IS 6465 Web Applications — Group 4 Final Project
 
-# FC Barcelona Ticketing System (IS 6465, Group 4)
+### Project Overview
 
-Mid-term project, **CODING** phase: the Home page, the Login page, and two CRUD sets
-(User Management and Match Management), coded in HTML/CSS with Bootstrap 5.3 and saved as PHP pages.
+The FC Barcelona Ticketing System is a PHP and SQLite web
+application developed for IS 6465 Web Applications.
 
-This is a PHP session-based prototype. There is no database integration yet.
-Sample User and Match records are initialized in `includes/init.php` and stored
-in PHP sessions. Create, Update, and Delete operations modify this session data,
-allowing changes to appear throughout the application.
+The application allows fans to register, manage their accounts,
+view scheduled matches, reserve seats, and complete simulated
+ticket purchases.
 
-The final project will replace session storage with database operations.
-Authentication is simulated for the midterm.
+Administrators manage user accounts, matches, seats, tickets,
+and transactions.
 
-## Run it
+### Technologies
 
-In a Codespace (or any computer with PHP 8):
+- PHP 8
+- SQLite
+- HTML5
+- CSS3
+- Bootstrap 5.3
+- JavaScript
+- GitHub Codespaces
+
+### Database
+
+The application uses five related SQLite tables:
+
+1. users
+2. matches
+3. seats
+4. tickets
+5. transactions
+
+The database schema is defined in:
+
+database/schema.sql
+
+The SQLite database file is excluded from Git using .gitignore.
+
+### Installation and Setup
+
+Open the project in GitHub Codespaces.
+
+Initialize the database:
+
+```bash
+php scripts/setup.php
+```
+
+Load demonstration data:
+
+```bash
+php scripts/seed.php
+```
+
+Start the PHP development server:
 
 ```bash
 php -S 0.0.0.0:8000
 ```
 
-Then open port 8000 and start at `index.php`.
+Open port 8000 in Codespaces and navigate to index.php.
 
-**Demo login:** any username with a password of at least 8 characters signs in as a fan.
-Use the username `admin` (any 8+ character password) to see the administrator pages.
-A shorter password shows the "Invalid username/email or password" message.
+The setup script will not overwrite an existing database.
+The seed script skips seeding when users already exist.
 
-## Pages
+### Demonstration Accounts
 
-| Wireframe | Page | Use case | Who |
-|---|---|---|---|
-| WF01 Home | `index.php` | Home (upcoming matches) | Everyone |
-| WF02 Login | `login.php` | Sign in | Everyone |
-| WF03 Create User Account | `create-user.php` | UC 01 Create User Account | Fan (Register Here) or admin (`?from=admin`) |
-| WF04 My Account | `my-account.php` | UC 02 View User Account, UC 04 Delete (button + confirmation) | Fan |
-| WF04A Manage Users | `manage-users.php` | UC 02 View, UC 04 Delete (Edit and Delete per row) | Admin |
-| WF05 Update User Account | `update-user.php?user_id=1` | UC 03 Update User Account | Fan or admin (`&from=admin`) |
-| WF06 Create Match | `create-match.php` | UC 05 Create Match | Admin |
-| WF07 View Matches | `matches.php` | UC 06 View Match | Everyone |
-| WF07A Manage Matches | `manage-matches.php` | UC 06 View, UC 08 Delete (Edit and Delete per row) | Admin |
-| WF08 Update Match | `update-match.php?match_id=1` | UC 07 Update Match | Admin |
-| | `logout.php` | Ends the session, returns to Home | Signed in |
+Administrator:
+- Username: admin
+- Password: AdminDemo2026!
 
-## Navigation (from the wireframes)
+Fan:
+- Username: fan
+- Password: FanDemo2026!
 
-- **Login:** a fan goes to Home; an admin goes to Manage Matches. Register Here opens Create User Account.
-- **Create User Account:** Create Account goes to Login (an admin returns to Manage Users). Cancel goes back without saving.
-- **Update User Account:** a fan returns to My Account; an admin returns to Manage Users. Cancel saves nothing.
-- **Delete:** every Delete opens a confirmation prompt. Cancel Delete stays on the page; Confirm Delete returns to the updated list when deletion is permitted.
-- **Account deletion restriction:** for the midterm demonstration, User ID 1 cannot be deleted because it is treated as having associated tickets or transactions. A blocked deletion displays an error message and preserves the account.
-- **Create Match / Update Match:** both return to Manage Matches after successful submission. Cancel saves nothing.
-- **Delete Match:** an administrator can remove a match after confirmation, regardless of whether customers have purchased tickets.
-- The navigation bar changes with the role: guest (Home, Matches, Login), fan (adds My Account, Logout), admin (adds Manage Users, Manage Matches, Logout).
+Additional seeded fan accounts:
+- sspasovski
+- cosmond
+- mahmed
 
-## CRUD Functionality
+These additional fan accounts use the same seeded fan password.
 
-**User Management (UC 01–04)**
+Passwords are stored using PHP password hashing.
 
-- Create user accounts and display them in Manage Users.
-- View existing user account information.
-- Update account information and display the changes.
-- Delete user accounts after confirmation.
-- Prevent duplicate usernames and email addresses during account creation.
-- Validate required fields and email formats.
-- Simulate blocked deletion for User ID 1 because of associated tickets or transactions.
-- Display success or error messages based on the operation.
+These credentials are intended for local demonstration only.
+Change them before any public deployment.
 
-**Match Management (UC 05–08)**
+### User Management — UC01–UC04
 
-- Create matches and display them in the match list.
-- View upcoming matches.
-- Update existing match information and display the changes.
-- Delete matches after administrator confirmation.
-- Validate required fields, dates, times, and match types.
-- Prevent creating or updating a match with a past date.
-- Restrict Match Type to League or Cup.
-- Prevent multiple matches from having the same date and time.
-- Display success or error messages based on the operation.
+- Create user accounts
+- View account information
+- Update account details
+- Delete or deactivate accounts
+- Prevent duplicate usernames and emails
+- Restrict access to other users' accounts
+- Preserve accounts with ticket or transaction history
 
-All CRUD changes use PHP session storage rather than a database.
-Changes are temporary and may reset when the session ends.
+### Match Management — UC05–UC08
 
-## Files
+- Create matches
+- View scheduled matches
+- Update match details
+- Delete matches when permitted
+- Validate match dates, times, and statuses
+- Restrict match management to administrators
 
+### Seat Management — UC09–UC12
+
+- Create seats
+- View and filter seats
+- Update seat information and status
+- Delete or deactivate seats when permitted
+- Prevent duplicate Section, Row, and Number combinations
+- Reject invalid row, seat number, and price values
+
+### Ticket Management — UC13–UC16
+
+- Reserve available seats
+- View tickets
+- Update permitted ticket statuses
+- Cancel Pending tickets
+- Preserve historical ticket records
+- Prevent duplicate active reservations
+- Automatically expire Pending reservations after 15 minutes
+
+Fans can view only their own tickets.
+Administrators can manage ticket records subject to
+ticket-status and transaction-history restrictions.
+
+### Transaction Management — UC17–UC20
+
+- Create simulated payment transactions
+- View transaction history
+- Filter transactions by match, status, and date
+- Void Completed transactions through administrator controls
+- Soft-delete transaction records using DeletedAt
+- Preserve transaction history
+
+No real payment information is collected.
+
+### Interactive Workflows
+
+#### Fan Ticket Reservation
+
+1. Log in as a fan.
+2. Open Available Matches.
+3. Select a Scheduled match.
+4. Choose an available seat.
+5. Reserve the seat.
+6. Complete simulated checkout within 15 minutes.
+7. View the Purchased ticket under My Tickets.
+
+#### Administrator-Created Reservation
+
+1. Log in as an administrator.
+2. Open Manage Tickets.
+3. Select Add Ticket.
+4. Choose a Scheduled match.
+5. Assign the ticket to an active fan.
+6. Select an available seat.
+7. Reserve the seat.
+
+The administrator returns to Manage Tickets.
+
+The assigned fan can open My Tickets and select Checkout
+before the reservation expires.
+
+#### Transaction Void
+
+1. Open Manage Transactions as an administrator.
+2. Select a Completed transaction.
+3. Open Update Transaction.
+4. Select Void Transaction.
+5. Confirm the update.
+
+The transaction changes to Voided and the associated
+Purchased ticket changes to Cancelled.
+
+Both records remain in the database.
+
+### Security and Validation
+
+The application implements:
+
+- Session-based authentication
+- Password hashing and verification
+- Role-based authorization
+- Account ownership restrictions
+- Ticket ownership restrictions
+- CSRF protection for state-changing forms
+- Server-side input validation
+- SQLite foreign-key enforcement
+- Duplicate seat and reservation protection
+- Historical record preservation
+
+### Wireframe References
+
+- WF01 — Home
+- WF02 — Login
+- WF03 — Create User Account
+- WF04 — My Account
+- WF04A — Manage Users (Admin)
+- WF05 — Update User Account
+- WF06 — Create Match
+- WF07 — Available Matches (User)
+- WF07A — Manage Matches (Admin)
+- WF08 — Update Match
+- WF09 — Create Seat
+- WF10 — Manage Seats
+- WF11 — Update Seat
+- WF12 — Reserve Seat (User)
+- WF12A — Reserve Seat (Admin)
+- WF13 — My Tickets (User) / Manage Tickets (Admin)
+- WF14 — Update Ticket
+- WF15 — Create Transaction / Checkout
+- WF16 — Manage Transactions
+- WF17 — Update Transaction
+
+### Testing
+
+Database verification:
+
+```bash
+php scripts/test-database.php
 ```
-index.php, login.php, logout.php            Home, Login, Logout
-create-user.php, my-account.php,
-manage-users.php, update-user.php           User Management CRUD (UC 01-04)
-create-match.php, matches.php,
-manage-matches.php, update-match.php        Match Management CRUD (UC 05-08)
-includes/init.php          time zone, sessions, helper functions, sample data
-includes/header.php        <head>, Bootstrap, stylesheet, navigation
-includes/nav.php           role-based navigation bar
-includes/footer.php        footer and Bootstrap JavaScript
-includes/messages.php      success and error messages (?msg=...) from an allow-list
-includes/delete-modal.php  shared delete confirmation prompt
-includes/match-table.php   match list used by Matches and Manage Matches
-includes/match-form.php    fields shared by Create Match and Update Match
-css/styles.css             club colors and layout
-js/app.js                  fills the delete prompt with the selected record
+
+Ticketing prerequisites:
+
+```bash
+php scripts/test-ticketing.php
 ```
 
-## Notes
+The ticketing script checks prerequisites and foreign-key
+configuration; it is not a complete automated checkout test.
 
-- Forms use POST and then redirect after successful operations (Post/Redirect/Get), so refreshing the destination page does not resubmit the form.
-- Delete is a POST from the confirmation prompt, never a GET link.
-- Values printed in HTML go through `e()` (`htmlspecialchars`), and record IDs in URLs are read using `filter_input(..., FILTER_VALIDATE_INT)`.
-- Browser validation and selected PHP server-side validation are implemented, including required fields, email formats, duplicate account checks, match dates, match types, and scheduling conflicts.
-- User and Match CRUD changes are stored in PHP sessions and are not permanent.
-- User ID 1 has simulated ticket or transaction history for demonstrating the account deletion restriction.
-- Administrators can delete matches without a simulated restriction based on ticket purchases.
-- Login authentication is simulated. Newly registered accounts are not authenticated against stored passwords.
-- Server-side authorization, CSRF protection, permanent database storage, and full ticket/transaction relationships remain future work.
-- The final project will replace the demonstration data and restrictions with database-backed functionality.
+Manual testing included:
 
-## Testing
+- User, Match, and Seat CRUD operations
+- Ticket reservations and simulated payments
+- Failed and successful payment outcomes
+- Administrator transaction voiding
+- Ticket cancellation
+- Reservation expiration and seat release
+- Transaction soft deletion
+- Duplicate seat and reservation prevention
+- Invalid seat number and negative price validation
+- Unauthorized account and checkout access
+- Inactive account login rejection
+- Database foreign-key integrity
 
-The primary User Management and Match Management CRUD workflows were manually tested against the approved wireframes.
+### Project Notes
 
-**User Management testing:**
-- Successful and invalid demonstration login.
-- User account creation and display in Manage Users.
-- User account updates and display of changed information.
-- Successful administrator account deletion.
-- Blocked deletion for an account with simulated ticket or transaction history.
-- Delete confirmation and cancellation.
-- Browser-side invalid email validation.
+This application is an academic demonstration project.
 
-**Match Management testing:**
-- Create Match and display the new match in Manage Matches.
-- View existing matches.
-- Update Match and display the changed information.
-- Delete Match and remove the selected match from the list.
-- Delete confirmation and cancellation.
+Payments are simulated, and no real payment card
+information is collected.
 
-Additional validation testing, authorization checks, and security testing remain before the final project.
+The SQLite database file is intentionally excluded from Git.
+New installations must run the setup and seed scripts.
+
+The PHP development server is intended for local testing,
+not production deployment.
